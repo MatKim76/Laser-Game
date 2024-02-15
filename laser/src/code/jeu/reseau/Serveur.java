@@ -23,7 +23,7 @@ public class Serveur implements Runnable
 		
 		array = new ArrayList<PrintWriter>();
 		
-		Thread monitorThread = new Thread(() -> {
+		/*Thread monitorThread = new Thread(() -> {
 			while (true) {
 				int cpt = 0;
 				for(PrintWriter p : array)
@@ -39,7 +39,7 @@ public class Serveur implements Runnable
 				}
 			}
 		});
-		monitorThread.start();
+		monitorThread.start();*/
 		
 		Thread t = new Thread(this);
 		t.start();

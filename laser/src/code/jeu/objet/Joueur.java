@@ -1,4 +1,4 @@
-package code.jeu;
+package code.jeu.objet;
 
 import java.awt.Color;
 
