@@ -5,6 +5,7 @@ import java.awt.Color;
 public class Joueur 
 {
 	private static int DISTANCE = 1;
+	private static int TAILLE = 10;
 	
 	private char nom;
 	private Color couleur;
@@ -30,4 +31,5 @@ public class Joueur
 	public int getX() {return this.x;}
 	public int getY() {return this.y;}
 	public Color getCouleur() {return this.couleur;}
+	public int getTaille() {return Joueur.TAILLE;}
 }

@@ -39,6 +39,31 @@ public class Controleur
 		System.out.println("lancement 2");
 	}
 
+	//regarde les colisions entre joueurs
+	public void checkColision()
+	{
+		for (int i = 0; i < lstJoueur.size(); i++) 
+		{
+            for (int j = i + 1; j < lstJoueur.size(); j++) 
+			{
+                Joueur joueur1 = lstJoueur.get(i);
+                Joueur joueur2 = lstJoueur.get(j);
+
+				if(joueur1.equals(joueur2)) return;
+
+                if (joueur1.getX() <= joueur2.getX() && joueur1.getX() + joueur1.getTaille() >= joueur2.getX() &&
+				    joueur1.getY() <= joueur2.getY() && joueur1.getY() + joueur1.getTaille() >= joueur2.getY() ||
+					joueur2.getX() <= joueur1.getX() && joueur2.getX() + joueur2.getTaille() >= joueur1.getX() &&
+				    joueur2.getY() <= joueur1.getY() && joueur2.getY() + joueur2.getTaille() >= joueur1.getY() ) 
+				{
+                    System.out.println("colision");
+					this.lstJoueur.remove(joueur1);
+					this.lstJoueur.remove(joueur2);
+                }
+            }
+        }
+	}
+
 	public static void main(String[] args) 
 	{
 		new Controleur();

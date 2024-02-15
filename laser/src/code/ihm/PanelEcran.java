@@ -1,9 +1,16 @@
 package code.ihm;
 
 import javax.swing.JPanel;
+
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 import code.jeu.objet.Joueur;
 import code.Controleur;
 
@@ -20,6 +27,8 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 		this.ctrl = ctrl;
 		this.joueur = j;
 
+		setBackground(Color.WHITE);
+
 		this.setFocusable(true);
 		this.addKeyListener(this);
 		requestFocusInWindow();
@@ -28,16 +37,28 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
         movementThread.start();
 	}
 
-	public void paint (Graphics g)
+	public void paintComponent (Graphics g)
 	{
-		super.paint(g);
+		super.paintComponent(g);
 
 		for(Joueur j : this.ctrl.getJoueurs())
 		{
 			g.setColor(j.getCouleur());
-			g.fillRect(j.getX(), j.getY(), 10, 10);
+			g.fillRect(j.getX(), j.getY(), j.getTaille(), j.getTaille());
+
+			this.ctrl.checkColision();
+			
 		}
 	}
+
+	/*private Color getColor(int x, int y) {
+        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = image.createGraphics();
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, 1, 1);
+        g2d.dispose();
+        return new Color(image.getRGB(0, 0));
+    }*/
 
 	@Override
 	public void keyTyped(KeyEvent e) 

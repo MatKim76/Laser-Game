@@ -23,24 +23,6 @@ public class Serveur implements Runnable
 		
 		array = new ArrayList<PrintWriter>();
 		
-		/*Thread monitorThread = new Thread(() -> {
-			while (true) {
-				int cpt = 0;
-				for(PrintWriter p : array)
-				{
-					System.out.println( "???" );
-					//System.out.println( p.println() );
-				}
-				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-				e.printStackTrace();
-				}
-			}
-		});
-		monitorThread.start();*/
-		
 		Thread t = new Thread(this);
 		t.start();
 	}
