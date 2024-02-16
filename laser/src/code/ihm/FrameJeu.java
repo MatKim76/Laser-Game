@@ -18,7 +18,8 @@ public class FrameJeu extends JFrame
 		this.pnlEcran = new PanelEcran(ctrl, j);
 
 		this.setTitle("Jeu");
-		this.setSize(300, 200);
+		this.setSize(500, 400);
+		this.setLocationRelativeTo(null);
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
