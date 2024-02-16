@@ -12,19 +12,22 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import code.jeu.objet.Joueur;
+import code.jeu.reseau.Serveur;
 import code.Controleur;
 
 public class PanelEcran extends JPanel implements KeyListener, Runnable
 {
 	private Controleur ctrl;
+	private Serveur serv;
 
 	private Joueur joueur;
 
 	private boolean[] keysPressed = new boolean[256];
 
-	public PanelEcran(Controleur ctrl, Joueur j)
+	public PanelEcran(Serveur serv, Joueur j)
 	{
-		this.ctrl = ctrl;
+		//this.ctrl = ctrl;
+		this.serv = serv;
 		this.joueur = j;
 
 		setBackground(Color.WHITE);
@@ -41,24 +44,15 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 	{
 		super.paintComponent(g);
 
-		for(Joueur j : this.ctrl.getJoueurs())
+		for(Joueur j : this.serv.getJoueurs())
 		{
 			g.setColor(j.getCouleur());
 			g.fillRect(j.getX(), j.getY(), j.getTaille(), j.getTaille());
 
-			this.ctrl.checkColision();
+			//this.ctrl.checkColision();
 			
 		}
 	}
-
-	/*private Color getColor(int x, int y) {
-        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = image.createGraphics();
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, 1, 1);
-        g2d.dispose();
-        return new Color(image.getRGB(0, 0));
-    }*/
 
 	@Override
 	public void keyTyped(KeyEvent e) 

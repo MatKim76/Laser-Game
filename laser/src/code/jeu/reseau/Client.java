@@ -7,7 +7,7 @@ public class Client
 {
 	
 	private static int portNumber = 6000;
-	private static String serveur = "di-724-19";
+	private static String serveur = "c-di-722-27";
 	
 	public Client()
 	{

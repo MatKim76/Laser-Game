@@ -6,16 +6,18 @@ import java.io.*;
 
 public class GerantDeClient implements Runnable 
 {
-	private Controleur ctrl;
+	//private Controleur ctrl;
+	private Serveur serv;
 
 	private Socket s;
 	private BufferedReader in;
 	private PrintWriter out;
 	
-	public GerantDeClient(Socket s, Controleur ctrl)
+	public GerantDeClient(Socket s, Serveur serv)
 	{
 		this.s = s;
-		this.ctrl = ctrl;
+		this.serv = serv;
+		//this.ctrl = ctrl;
 		
 		try
 		{
@@ -27,23 +29,10 @@ public class GerantDeClient implements Runnable
 	}
 	
 	public void run()
-	{ // "main" de la thread
-		/*try{
-			int cpt = 1;
-			boolean ok = true;
-			while( ok ) { // boucle sans fin
-				//out.println(in.readLine());
-				try{ Thread.sleep(1000); } // attend 1000ms
-				catch(InterruptedException ie) {}
-				ok = !out.checkError();
-			}
-			System.out.println("deconnection de quelqu un");
-			in.close();
-			out.close();
-			this.s.close();
-		}catch( IOException e ){ System.out.println("erreur de connection"); }*/
+	{ 
+		//this.ctrl.lancerJeu();
+		this.serv.lancerJeu();
 
-		this.ctrl.lancerJeu();
 		System.out.println("fin du lancement");
 	}
 	

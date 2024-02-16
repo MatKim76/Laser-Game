@@ -26,20 +26,8 @@ public class Controleur
 		new Client();
 	}
 
-	public ArrayList<Joueur> getJoueurs()
-	{
-		return this.lstJoueur;
-	}
-
-	public void lancerJeu()
-	{
-		Joueur j = new Joueur('A', Controleur.COULEURS[++Controleur.compteur]);
-		this.lstJoueur.add(j);
-		this.lstFrame.add(new FrameJeu(this, j));
-		System.out.println("lancement 2");
-	}
-
 	//regarde les colisions entre joueurs
+	//TODO faut changer
 	public void checkColision()
 	{
 		for (int i = 0; i < lstJoueur.size(); i++) 
