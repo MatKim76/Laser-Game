@@ -27,14 +27,14 @@ public class PanelMenu extends JPanel implements ActionListener
 
 		this.setLayout(new GridLayout(1, 2));
 
-		this.btnServ = new JButton("seveur");
-		this.btnCli = new JButton("client");
+		//this.btnServ = new JButton("seveur");
+		this.btnCli = new JButton("jouer");
 
 		this.add(this.btnCli);
-		this.add(this.btnServ);
+		//this.add(this.btnServ);
 
 		this.btnCli.addActionListener(this);
-		this.btnServ.addActionListener(this);
+		//this.btnServ.addActionListener(this);
 	}
 
 
@@ -45,7 +45,7 @@ public class PanelMenu extends JPanel implements ActionListener
 		{
 			System.out.println("client");
 			Serveur.recupServeur(ctrl);
-			
+
 			chercherServ();
 		}
 
