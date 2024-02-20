@@ -1,6 +1,8 @@
 package code;
 import code.ihm.FrameJeu;
+import code.ihm.FrameMenu;
 import code.jeu.objet.Joueur;
+import code.jeu.objet.Map;
 import code.jeu.reseau.*;
 
 import java.awt.Color;
@@ -8,22 +10,22 @@ import java.util.ArrayList;
 
 public class Controleur 
 {
-	private static Color[] COULEURS = {Color.RED, Color.BLUE, Color.YELLOW, Color.PINK};
+	private static Color[] COULEURS = {Color.RED, Color.BLUE, Color.YELLOW, Color.PINK, Color.GREEN, Color.GRAY};
 	
 	private ArrayList<Joueur> lstJoueur;
-	private ArrayList<FrameJeu> lstFrame;
+	private FrameJeu frame;
 
 	private static int compteur = 0;
 	
 	public Controleur()
 	{
 		//récupérer le serveur et le ctrl qui joint tout
-		Serveur s = Serveur.recupServeur(this);
+		//Serveur s = Serveur.recupServeur(this);
 
-		this.lstFrame = new ArrayList<FrameJeu>();
-		this.lstJoueur = new ArrayList<Joueur>();
+		//new Client();
 
-		new Client();
+
+		new FrameMenu(this);
 	}
 
 	//regarde les colisions entre joueurs
@@ -45,8 +47,12 @@ public class Controleur
 				    joueur2.getY() <= joueur1.getY() && joueur2.getY() + joueur2.getTaille() >= joueur1.getY() ) 
 				{
                     System.out.println("colision");
-					this.lstJoueur.remove(joueur1);
-					this.lstJoueur.remove(joueur2);
+
+					if(!joueur1.getBouclier())
+						this.lstJoueur.remove(joueur1);
+
+					if(!joueur2.getBouclier())
+						this.lstJoueur.remove(joueur2);
                 }
             }
         }
@@ -55,5 +61,24 @@ public class Controleur
 	public static void main(String[] args) 
 	{
 		new Controleur();
+	}
+
+	public ArrayList<Joueur> getJoueurs()
+	{
+		return this.lstJoueur;
+	}
+
+	public void lancerJeu()
+	{
+		Serveur s =  Serveur.recupServeur(this);
+		this.lstJoueur = s.getJoueurs();
+		Map map = s.getMap();
+
+		Joueur j = new Joueur('A', Controleur.COULEURS[Controleur.compteur++], map);
+		this.lstJoueur.add(j);
+
+		this.frame = new FrameJeu(this, j);
+
+		System.out.println("lancement 2");
 	}
 }

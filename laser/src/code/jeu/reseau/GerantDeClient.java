@@ -6,18 +6,16 @@ import java.io.*;
 
 public class GerantDeClient implements Runnable 
 {
-	//private Controleur ctrl;
-	private Serveur serv;
+	private Controleur ctrl;
 
 	private Socket s;
 	private BufferedReader in;
 	private PrintWriter out;
 	
-	public GerantDeClient(Socket s, Serveur serv)
+	public GerantDeClient(Socket s, Controleur ctrl)
 	{
 		this.s = s;
-		this.serv = serv;
-		//this.ctrl = ctrl;
+		this.ctrl = ctrl;
 		
 		try
 		{
@@ -30,8 +28,7 @@ public class GerantDeClient implements Runnable
 	
 	public void run()
 	{ 
-		//this.ctrl.lancerJeu();
-		this.serv.lancerJeu();
+		this.ctrl.lancerJeu();
 
 		System.out.println("fin du lancement");
 	}

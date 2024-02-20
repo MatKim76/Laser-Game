@@ -4,33 +4,23 @@ import javax.swing.JPanel;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
 import code.jeu.objet.Joueur;
-import code.jeu.reseau.Serveur;
 import code.Controleur;
 
 public class PanelEcran extends JPanel implements KeyListener, Runnable
 {
 	private Controleur ctrl;
-	private Serveur serv;
 
 	private Joueur joueur;
 
 	private boolean[] keysPressed = new boolean[256];
 
-	public PanelEcran(Serveur serv, Joueur j)
+	public PanelEcran(Controleur ctrl, Joueur j)
 	{
-		//this.ctrl = ctrl;
-		this.serv = serv;
+		this.ctrl = ctrl;
 		this.joueur = j;
-
-		setBackground(Color.WHITE);
 
 		this.setFocusable(true);
 		this.addKeyListener(this);
@@ -44,14 +34,27 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 	{
 		super.paintComponent(g);
 
-		for(Joueur j : this.serv.getJoueurs())
+		for(Joueur j : this.ctrl.getJoueurs())
 		{
 			g.setColor(j.getCouleur());
 			g.fillRect(j.getX(), j.getY(), j.getTaille(), j.getTaille());
 
-			//this.ctrl.checkColision();
-			
+			if(j.getBouclier())
+			{
+				g.setColor(Color.CYAN);
+				g.drawRect(j.getX() - 5, j.getY() - 5, j.getTaille() + 10, j.getTaille() + 10);
+			}	
 		}
+
+		g.setColor(Color.BLACK);
+		g.drawLine(0, 0, 0, 400);
+		g.drawLine(0, 0, 500, 0);
+		g.drawLine(500, 0, 500, 400);
+		g.drawLine(0, 400, 500, 400);
+
+		g.drawString("num charge : " + this.joueur.getNbBouclier(), 0, 50);
+
+		this.ctrl.checkColision();
 	}
 
 	@Override
@@ -78,10 +81,19 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 	{
 		while(true)
 		{
-			if(keysPressed[68]) {joueur.droite();}
-			if(keysPressed[81]) {joueur.gauche();}
-			if(keysPressed[90]) {joueur.haut();}
-			if(keysPressed[83]) {joueur.bas();}
+			if(keysPressed[68] || keysPressed[39]) {joueur.deplacer('E');}
+			if(keysPressed[81] || keysPressed[37]) {joueur.deplacer('O');}
+			if(keysPressed[90] || keysPressed[38]) {joueur.deplacer('N');}
+			if(keysPressed[83] || keysPressed[40]) {joueur.deplacer('S');}
+
+			if(keysPressed[32])
+			{
+				joueur.décharge();
+			}
+			else
+			{
+				joueur.charge();
+			}
 
 			repaint();
 

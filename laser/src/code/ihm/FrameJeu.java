@@ -4,6 +4,9 @@ import code.Controleur;
 import code.jeu.objet.Joueur;
 import code.jeu.reseau.Serveur;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import javax.swing.JFrame;
 
 public class FrameJeu extends JFrame 
@@ -11,14 +14,12 @@ public class FrameJeu extends JFrame
 	private PanelEcran pnlEcran;
 
 	private Controleur ctrl;
-	private Serveur serv;
 
-	public FrameJeu(Serveur serv, Joueur j)
+	public FrameJeu(Controleur ctrl, Joueur j)
 	{
-		//this.ctrl = ctrl;
-		this.serv = serv;
+		this.ctrl = ctrl;
 		
-		this.pnlEcran = new PanelEcran(serv, j);
+		this.pnlEcran = new PanelEcran(ctrl, j);
 
 		this.setTitle("Jeu");
 		this.setSize(500, 400);
