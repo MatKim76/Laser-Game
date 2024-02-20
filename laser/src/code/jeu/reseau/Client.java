@@ -18,10 +18,10 @@ public class Client extends Thread
 	{
 		try
 		{
-			System.out.println("connexion au serveur...");
+			//System.out.println("connexion au serveur...");
 			
 			Socket toServer = new Socket(this.serveur, portNumber);
-			System.out.println("connecté...");
+			System.out.println("connecté... à " + this.serveur);
 			
 			BufferedReader in = new BufferedReader( new InputStreamReader(toServer.getInputStream()));
 			
@@ -42,7 +42,7 @@ public class Client extends Thread
 			in.close();
 			toServer.close();
 			
-		}catch( IOException e ){ System.out.println("erreur de connection Client " + e); }
+		}catch( IOException e ){ /*System.out.println("erreur de connection Client " + e); */}
 	}
 	
 }
