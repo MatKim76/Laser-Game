@@ -44,7 +44,7 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 
 			if(j.getBouclier())
 			{
-				g.setColor(Color.CYAN);
+				g.setColor(Color.BLUE);
 				g.drawRect(j.getX() - 5, j.getY() - 5, j.getTaille() + 10, j.getTaille() + 10);
 			}	
 		}

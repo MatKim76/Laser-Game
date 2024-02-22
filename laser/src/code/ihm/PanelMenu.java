@@ -18,6 +18,7 @@ import code.jeu.reseau.RechercheServeur;
 import code.jeu.reseau.Serveur;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 public class PanelMenu extends JPanel implements ActionListener {
     private Controleur ctrl;
@@ -64,7 +65,6 @@ public class PanelMenu extends JPanel implements ActionListener {
 		{
             // Se connecter au serveur sélectionné dans la liste
             String selectedServer = (String) this.serverList.getSelectedItem();
-            System.out.println("+"+selectedServer+"+");
 			if (selectedServer != null)
 			{
                 Client c = new Client(selectedServer, this.ctrl);
@@ -74,7 +74,11 @@ public class PanelMenu extends JPanel implements ActionListener {
 
 		if(e.getSource() == this.btnServeur)
 		{
+			//TODO faire en sorte d'afficher les nom des serv (compliqué)
+			//String nomServeur = JOptionPane.showInputDialog(null, "Veuillez saisir un nom au serveur :");
+			
 			Serveur.recupServeur(ctrl);
+			//new Serveur(ctrl);
 		}
     }
 

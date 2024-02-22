@@ -30,6 +30,7 @@ public class Serveur implements Runnable
 		t.start();
 	}
 
+	//TODO à modifier pour créer plusieur serv
 	public static Serveur recupServeur(Controleur ctrl)
 	{
 		if(Serveur.serv == null)

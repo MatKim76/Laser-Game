@@ -32,10 +32,8 @@ public class Client extends Thread
 			
 			// Attente du message pour démarrer le jeu
 			String messageFromServer = in.readLine();
-			System.out.println(messageFromServer);
 			if (messageFromServer.equals("START_GAME"))
 			{
-				System.out.println("lancer jeu");
 				this.ctrl.lancerJeu();
 			}
 			

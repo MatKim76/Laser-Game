@@ -1,10 +1,14 @@
 package code.jeu.objet;
 
+import java.util.ArrayList;
+
 public class Map 
 {
 	private int hauteur;
 	private int longueur;
-	//TODO ajout d'objet sur la map ?
+	
+	private ArrayList<Joueur> lstJoueurs;
+	private ArrayList<Bonus> lstBonus;
 	
 	public Map(int hauteur, int longueur)
 	{

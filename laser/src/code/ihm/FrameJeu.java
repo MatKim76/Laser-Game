@@ -22,7 +22,7 @@ public class FrameJeu extends JFrame
 		this.pnlEcran = new PanelEcran(ctrl, this, j);
 
 		this.setTitle("Jeu");
-		this.setSize(500, 400);
+		this.setSize(this.ctrl.getMap().getLongueur(), this.ctrl.getMap().getHauteur() + 30);
 		this.setLocationRelativeTo(null);
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

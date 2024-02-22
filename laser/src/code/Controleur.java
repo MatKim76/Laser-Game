@@ -10,10 +10,11 @@ import java.util.ArrayList;
 
 public class Controleur 
 {
-	private static Color[] COULEURS = {Color.RED, Color.BLUE, Color.YELLOW, Color.PINK, Color.GREEN, Color.GRAY};
+	private static Color[] COULEURS = {Color.RED, Color.CYAN, Color.YELLOW, Color.PINK, Color.GREEN, Color.GRAY};
 	
 	private ArrayList<Joueur> lstJoueur;
 	private FrameJeu frame;
+	private Map map;
 
 	private static int compteur = 0;
 	
@@ -68,11 +69,16 @@ public class Controleur
 		return this.lstJoueur;
 	}
 
+	public Map getMap()
+	{
+		return this.map;
+	}
+
 	public void lancerJeu()
 	{
 		Serveur s = Serveur.recupServeur(this);
 		this.lstJoueur = s.getJoueurs();
-		Map map = s.getMap();
+		this.map = s.getMap();
 
 		Joueur j = new Joueur('A', Controleur.COULEURS[Controleur.compteur++], map);
 		this.lstJoueur.add(j);
