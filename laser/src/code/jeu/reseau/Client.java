@@ -1,48 +1,49 @@
 package code.jeu.reseau;
 
 import java.net.*;
+
+import code.Controleur;
+
 import java.io.*;
 
 public class Client extends Thread
 {
-	
-	private static int portNumber = 6000;
+	private static int portNumber = 8686;
 	private String serveur = "di-715-08";
 
-	public Client(String serveur)
+	private Controleur ctrl;
+
+	public Client(String serveur, Controleur ctrl)
 	{
 		this.serveur = serveur;
+		this.ctrl = ctrl;
 	}
 	
 	public void run()
 	{
 		try
 		{
-			//System.out.println("connexion au serveur...");
-			
+			// Initialisation de la connexion avec le serveur
 			Socket toServer = new Socket(this.serveur, portNumber);
-			System.out.println("connecté... à " + this.serveur);
+			System.out.println("Connecté à " + this.serveur);
 			
-			BufferedReader in = new BufferedReader( new InputStreamReader(toServer.getInputStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(toServer.getInputStream()));
+			PrintWriter out = new PrintWriter(toServer.getOutputStream(), true);
 			
-			System.out.println( in.readLine() );
-			
-			/*PrintWriter out;
-			String message = "";
-			do
+			// Attente du message pour démarrer le jeu
+			String messageFromServer = in.readLine();
+			System.out.println(messageFromServer);
+			if (messageFromServer.equals("START_GAME"))
 			{
-				//out = new PrintWriter(toServer.getOutputStream(), true);
-				//message = Clavier.lireString();
-				//out.println( message );
-				
-				//System.out.println( in.readLine() );
-			}while( message != "fin" ); */
-			
+				System.out.println("lancer jeu");
+				this.ctrl.lancerJeu();
+			}
 			
 			in.close();
+			out.close();
 			toServer.close();
 			
-		}catch( IOException e ){ /*System.out.println("erreur de connection Client " + e); */}
+		}catch( IOException e ){ System.out.println("erreur de connection Client " + e) ;}
 	}
 	
 }

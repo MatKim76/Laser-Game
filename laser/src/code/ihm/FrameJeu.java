@@ -19,7 +19,7 @@ public class FrameJeu extends JFrame
 	{
 		this.ctrl = ctrl;
 		
-		this.pnlEcran = new PanelEcran(ctrl, j);
+		this.pnlEcran = new PanelEcran(ctrl, this, j);
 
 		this.setTitle("Jeu");
 		this.setSize(500, 400);

@@ -3,82 +3,103 @@ package code.ihm;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 import code.Controleur;
 import code.jeu.reseau.Client;
+import code.jeu.reseau.RechercheServeur;
 import code.jeu.reseau.Serveur;
 
-public class PanelMenu extends JPanel implements ActionListener
-{
-	private Controleur ctrl;
+import javax.swing.JComboBox;
 
-	private JButton btnServ;
-	private JButton btnCli;
+public class PanelMenu extends JPanel implements ActionListener {
+    private Controleur ctrl;
+    private FrameMenu parent;
 
-	private FrameMenu parent;
+    private JButton btnServeur;
+	private JButton btnSearch;
+    private JComboBox<String> serverList;
+    private JButton btnConnect;
 
+    public PanelMenu(Controleur ctrl, FrameMenu parent) {
+        this.ctrl = ctrl;
+        this.parent = parent;
 
-	public PanelMenu(Controleur ctrl, FrameMenu parent)
-	{
-		this.ctrl = ctrl;
+        this.setLayout(new GridLayout(4, 1, 10, 10));
+		this.setBorder ( new EmptyBorder  ( 10, 10, 10, 10 ) );
 
-		this.setLayout(new GridLayout(1, 2));
+        this.btnServeur = new JButton("Créer Serveur");
+		this.btnSearch = new JButton("Rechercher Serveurs");
+        this.serverList = new JComboBox<>();
+        this.btnConnect = new JButton("Se Connecter");
 
-		this.btnServ = new JButton("seveur");
-		this.btnCli = new JButton("jouer");
+        this.add(this.btnServeur);
+		this.add(this.btnSearch);
+        this.add(this.serverList);
+        this.add(this.btnConnect);
 
-		this.add(this.btnCli);
-		this.add(this.btnServ);
+        this.btnServeur.addActionListener(this);
+		this.btnSearch.addActionListener(this);
+        this.btnConnect.addActionListener(this);
 
-		this.btnCli.addActionListener(this);
-		this.btnServ.addActionListener(this);
-	}
+		this.serverList.addItem("localhost");
+    }
 
-
-	@Override
-	public void actionPerformed(ActionEvent e) 
-	{
-		if(e.getSource() == this.btnCli)
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == this.btnSearch)
 		{
-			System.out.println("client");
-			//Serveur.recupServeur(ctrl);
-
+            this.serverList.removeAllItems();
 			chercherServ();
-		}
+        }
 
-		if(e.getSource() == this.btnServ)
+		if (e.getSource() == this.btnConnect)
 		{
-			System.out.println("serv");
+            // Se connecter au serveur sélectionné dans la liste
+            String selectedServer = (String) this.serverList.getSelectedItem();
+            System.out.println("+"+selectedServer+"+");
+			if (selectedServer != null)
+			{
+                Client c = new Client(selectedServer, this.ctrl);
+				c.start();
+            }
+        }
+
+		if(e.getSource() == this.btnServeur)
+		{
 			Serveur.recupServeur(ctrl);
 		}
-	}
+    }
 
 	public void chercherServ()
 	{
+		//j'espère que ca pose pas trop de problème car lance au max 50 Thread
+		ExecutorService executor = Executors.newFixedThreadPool(50);
+		
 		String s = "di-";
 		String s2 = "c-";
 		int num;
-		
 
 		for(num = 715; num < 730; num++)
 		{
 			for(int pc = 0; pc < 30; pc++)
 			{
-				Client c = new Client(s + num + "-" + String.format("%02d", pc));
-				c.start();
-				Client c2 = new Client(s2 + s + num + "-" + String.format("%02d", pc));
-				c2.start();
-
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				String serv1 = s + num + "-" + String.format("%02d", pc);
+				String serv2 = s2 + serv1;
+				
+				executor.execute(new RechercheServeur(serv1, this.serverList));
+                executor.execute(new RechercheServeur(serv2, this.serverList));
 			}
 		}
+		System.out.println("Fin recherche serveur");
 
 	}
 }
+

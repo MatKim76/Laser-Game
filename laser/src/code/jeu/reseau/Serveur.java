@@ -12,19 +12,15 @@ import code.jeu.objet.Map;
 public class Serveur implements Runnable
 {
 	private static Serveur serv;
-	private static ArrayList<Controleur> lstControleur;
 	
-	private static int portNumber = 6000;
+	private static int portNumber = 8686;
 	private static ArrayList<PrintWriter> array;
 
 	private ArrayList<Joueur> lstJoueur;
 	private Map map;
 
-	private Serveur(Controleur ctrl)
+	public Serveur(Controleur ctrl)
 	{
-		Serveur.lstControleur = new ArrayList<Controleur>();
-		Serveur.lstControleur.add(ctrl);
-
 		this.lstJoueur = new ArrayList<Joueur>();
 		this.map = new Map(400, 500);//faire que sa sadapte a la frmae
 		
@@ -44,7 +40,6 @@ public class Serveur implements Runnable
 		}
 
 		System.out.println("Il y a deja un serveur... recup du serveur");
-		Serveur.lstControleur.add(ctrl);
 		return Serveur.serv;
 	}
 
@@ -62,10 +57,7 @@ public class Serveur implements Runnable
 				Socket toClient = ss.accept();
 				System.out.println("client arrivé");
 				
-				//PrintWriter out = new PrintWriter(toClient.getOutputStream(), true);
-				//BufferedReader in = new BufferedReader(new InputStreamReader(toClient.getInputStream()));
-				
-				GerantDeClient client = new GerantDeClient(toClient, Serveur.lstControleur.get(Serveur.lstControleur.size()-1));
+				GerantDeClient client = new GerantDeClient(toClient);
 				array.add( client.getPrint() );
 				
 				Thread t = new Thread(client);

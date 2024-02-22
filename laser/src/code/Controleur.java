@@ -70,7 +70,7 @@ public class Controleur
 
 	public void lancerJeu()
 	{
-		Serveur s =  Serveur.recupServeur(this);
+		Serveur s = Serveur.recupServeur(this);
 		this.lstJoueur = s.getJoueurs();
 		Map map = s.getMap();
 

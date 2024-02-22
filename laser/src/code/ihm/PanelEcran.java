@@ -12,14 +12,16 @@ import code.Controleur;
 public class PanelEcran extends JPanel implements KeyListener, Runnable
 {
 	private Controleur ctrl;
+	private FrameJeu frame;
 
 	private Joueur joueur;
 
 	private boolean[] keysPressed = new boolean[256];
 
-	public PanelEcran(Controleur ctrl, Joueur j)
+	public PanelEcran(Controleur ctrl, FrameJeu frame, Joueur j)
 	{
 		this.ctrl = ctrl;
+		this.frame = frame;
 		this.joueur = j;
 
 		this.setFocusable(true);
@@ -34,6 +36,7 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 	{
 		super.paintComponent(g);
 
+		//dessine les joueurs
 		for(Joueur j : this.ctrl.getJoueurs())
 		{
 			g.setColor(j.getCouleur());
@@ -46,6 +49,7 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 			}	
 		}
 
+		//dessin des bordure 
 		g.setColor(Color.BLACK);
 		g.drawLine(0, 0, 0, 400);
 		g.drawLine(0, 0, 500, 0);
@@ -54,7 +58,12 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 
 		g.drawString("num charge : " + this.joueur.getNbBouclier(), 0, 50);
 
+		//regarde les coliisions
 		this.ctrl.checkColision();
+
+		//verif si pas mort
+		if(!this.ctrl.getJoueurs().contains(this.joueur))
+			this.frame.dispose();
 	}
 
 	@Override

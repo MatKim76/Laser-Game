@@ -1,21 +1,19 @@
 package code.jeu.reseau;
 
 import java.net.*;
-import code.Controleur;
+
 import java.io.*;
 
 public class GerantDeClient implements Runnable 
 {
-	private Controleur ctrl;
 
 	private Socket s;
 	private BufferedReader in;
 	private PrintWriter out;
 	
-	public GerantDeClient(Socket s, Controleur ctrl)
+	public GerantDeClient(Socket s)
 	{
 		this.s = s;
-		this.ctrl = ctrl;
 		
 		try
 		{
@@ -28,9 +26,8 @@ public class GerantDeClient implements Runnable
 	
 	public void run()
 	{ 
-		this.ctrl.lancerJeu();
-
-		System.out.println("fin du lancement");
+		//envoie au client le message de lancement
+		this.out.println("START_GAME");
 	}
 	
 	public PrintWriter getPrint()
