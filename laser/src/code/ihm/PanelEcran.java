@@ -6,7 +6,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import code.jeu.objet.Joueur;
+import code.jeu.objet.Map;
 import code.Controleur;
 
 public class PanelEcran extends JPanel implements KeyListener, Runnable
@@ -41,6 +43,7 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 		{
 			g.setColor(j.getCouleur());
 			g.fillRect(j.getX(), j.getY(), j.getTaille(), j.getTaille());
+			g.drawString(j.getNom() + "", j.getX() + 6 - j.getNom().length() * 3, j.getY() + j.getTaille() + 10);
 
 			if(j.getBouclier())
 			{
@@ -50,11 +53,13 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 		}
 
 		//dessin des bordure 
+		Map m = this.ctrl.getMap();
+
 		g.setColor(Color.BLACK);
-		g.drawLine(0, 0, 0, 400);
-		g.drawLine(0, 0, 500, 0);
-		g.drawLine(500, 0, 500, 400);
-		g.drawLine(0, 400, 500, 400);
+		g.drawLine(0, 0, 0, m.getHauteur());
+		g.drawLine(0, 0, m.getLongueur(), 0);
+		g.drawLine(m.getLongueur(), 0, m.getLongueur(), m.getHauteur());
+		g.drawLine(0, m.getHauteur(), m.getLongueur(), m.getHauteur());
 
 		g.drawString("num charge : " + this.joueur.getNbBouclier(), 0, 50);
 

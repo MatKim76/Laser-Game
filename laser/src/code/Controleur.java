@@ -8,6 +8,8 @@ import code.jeu.reseau.*;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Controleur 
 {
 	private static Color[] COULEURS = {Color.RED, Color.CYAN, Color.YELLOW, Color.PINK, Color.GREEN, Color.GRAY};
@@ -80,7 +82,11 @@ public class Controleur
 		this.lstJoueur = s.getJoueurs();
 		this.map = s.getMap();
 
-		Joueur j = new Joueur('A', Controleur.COULEURS[Controleur.compteur++], map);
+		String nomJoueur = JOptionPane.showInputDialog(null, "Veuillez choisir un pseudo :");
+		while( nomJoueur.length() > 10 )
+			nomJoueur = JOptionPane.showInputDialog(null, "Pseudo trop long (10 cara max) :");
+
+		Joueur j = new Joueur(nomJoueur, Controleur.COULEURS[Controleur.compteur++], map);
 		this.lstJoueur.add(j);
 
 		this.frame = new FrameJeu(this, j);

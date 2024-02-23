@@ -4,11 +4,11 @@ import java.awt.Color;
 
 public class Joueur 
 {
-	private static int DISTANCE = 1;
-	private static int TAILLE = 10;
+	private static int VITESSE_BASE = 2;
+	private static int TAILLE = 20;
 	private static int MAX_BOUCLIER = 500;
 	
-	private char nom;
+	private String nom;
 	private Color couleur;
 
 	private int chargeBouclier;
@@ -19,7 +19,9 @@ public class Joueur
 	private int x;
 	private int y;
 
-	public Joueur(char nom, Color couleur, Map map)
+	private int vitesse = Joueur.VITESSE_BASE;
+
+	public Joueur(String nom, Color couleur, Map map)
 	{
 		this.nom = nom;
 		this.couleur = couleur;
@@ -39,6 +41,7 @@ public class Joueur
 		{
 			chargeBouclier -= 5;
 			this.bouclier = true;
+			this.vitesse = Joueur.VITESSE_BASE*2;
 			return;
 		}
 		this.bouclier = false;
@@ -47,6 +50,7 @@ public class Joueur
 	public void charge()
 	{
 		this.bouclier = false;
+		this.vitesse = Joueur.VITESSE_BASE;
 
 		if(chargeBouclier < Joueur.MAX_BOUCLIER)
 			this.chargeBouclier++;
@@ -56,10 +60,10 @@ public class Joueur
 	{
 		switch(dir)
 		{
-			case 'N' -> this.y -= Joueur.DISTANCE;
-			case 'S' -> this.y += Joueur.DISTANCE;
-			case 'E' -> this.x += Joueur.DISTANCE;
-			case 'O' -> this.x -= Joueur.DISTANCE;
+			case 'N' -> this.y -= vitesse;
+			case 'S' -> this.y += vitesse;
+			case 'E' -> this.x += vitesse;
+			case 'O' -> this.x -= vitesse;
 		}
 
 		if(this.x < 0) this.x = 0;
@@ -68,7 +72,7 @@ public class Joueur
 		if(this.y > map.getHauteur() - Joueur.TAILLE) this.y = map.getHauteur() - Joueur.TAILLE;
 	}
 
-	public char getNom() {return this.nom;}
+	public String getNom() {return this.nom;}
 	public int getX() {return this.x;}
 	public int getY() {return this.y;}
 	public Color getCouleur() {return this.couleur;}

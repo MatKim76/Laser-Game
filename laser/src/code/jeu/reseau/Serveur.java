@@ -22,7 +22,7 @@ public class Serveur implements Runnable
 	public Serveur(Controleur ctrl)
 	{
 		this.lstJoueur = new ArrayList<Joueur>();
-		this.map = new Map(400, 500);//faire que sa sadapte a la frmae
+		this.map = new Map(600, 800);//faire que sa sadapte a la frmae
 		
 		array = new ArrayList<PrintWriter>();
 		
