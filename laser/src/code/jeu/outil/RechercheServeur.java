@@ -1,4 +1,4 @@
-package code.jeu.reseau;
+package code.jeu.outil;
 
 import java.net.Socket;
 

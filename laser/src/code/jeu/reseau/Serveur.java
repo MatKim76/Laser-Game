@@ -16,12 +16,10 @@ public class Serveur implements Runnable
 	private static int portNumber = 8686;
 	private static ArrayList<PrintWriter> array;
 
-	private ArrayList<Joueur> lstJoueur;
 	private Map map;
 
 	public Serveur(Controleur ctrl)
 	{
-		this.lstJoueur = new ArrayList<Joueur>();
 		this.map = new Map(600, 800);//faire que sa sadapte a la frmae
 		
 		array = new ArrayList<PrintWriter>();
@@ -67,11 +65,6 @@ public class Serveur implements Runnable
 		
 		}catch( IOException e ){ System.out.println("erreur de connection Serveur " + e); }
 
-	}
-
-	public ArrayList<Joueur> getJoueurs()
-	{
-		return this.lstJoueur;
 	}
 
 	public Map getMap()

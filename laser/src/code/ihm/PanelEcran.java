@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 
 import code.jeu.objet.Joueur;
 import code.jeu.objet.Map;
+import code.jeu.outil.TesteurColision;
 import code.Controleur;
 
 public class PanelEcran extends JPanel implements KeyListener, Runnable
@@ -30,11 +31,17 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 		this.addKeyListener(this);
 		requestFocusInWindow();
 
+		this.setBackground(Color.WHITE);
+
+		//Observe les colisions
+		Thread colision = new Thread( new TesteurColision(this.ctrl.getMap()) );
+        colision.start();
+
 		Thread movementThread = new Thread(this);
         movementThread.start();
 	}
 
-	public void paintComponent (Graphics g)
+	/*public void paintComponent (Graphics g)
 	{
 		super.paintComponent(g);
 
@@ -63,13 +70,74 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 
 		g.drawString("num charge : " + this.joueur.getNbBouclier(), 0, 50);
 
-		//regarde les coliisions
-		this.ctrl.checkColision();
-
 		//verif si pas mort
 		if(!this.ctrl.getJoueurs().contains(this.joueur))
 			this.frame.dispose();
+	}*/
+
+	public void paintComponent(Graphics g) 
+	{
+		super.paintComponent(g);
+	
+		// Récupérer la position du joueur
+		int joueurX = this.joueur.getX();
+		int joueurY = this.joueur.getY();
+	
+		// Calculer les coordonnées de dessin du joueur pour qu'il soit au centre du panel
+		int joueurDessinX = getWidth() / 2 - joueurX - joueur.getTaille()/2;
+		int joueurDessinY = getHeight() / 2 - joueurY - joueur.getTaille()/2;
+	
+		// Dessiner les autres éléments de la carte en ajustant leurs coordonnées de dessin
+		for (Joueur j : this.ctrl.getJoueurs()) 
+		{
+			int dessinX = joueurDessinX + j.getX();
+			int dessinY = joueurDessinY + j.getY();
+	
+			// Dessiner le joueur à sa nouvelle position calculée
+			g.setColor(j.getCouleur());
+			g.fillRect(dessinX, dessinY, j.getTaille(), j.getTaille());
+			g.drawString(j.getNom() + "", dessinX + 6 - j.getNom().length() * 3, dessinY + j.getTaille() + 10);
+	
+			if (j.getBouclier()) {
+				g.setColor(Color.BLUE);
+				g.drawRect(dessinX - 5, dessinY - 5, j.getTaille() + 10, j.getTaille() + 10);
+			}
+		}
+	
+		// Dessiner d'autres éléments de la carte (bordures, etc.) en ajustant leurs coordonnées de dessin
+		Map m = this.ctrl.getMap();
+		int dessinBordureX = joueurDessinX;
+		int dessinBordureY = joueurDessinY;
+	
+		g.setColor(Color.BLACK);
+		g.drawLine(dessinBordureX, dessinBordureY, dessinBordureX, dessinBordureY + m.getHauteur());
+		g.drawLine(dessinBordureX, dessinBordureY, dessinBordureX + m.getLongueur(), dessinBordureY);
+		g.drawLine(dessinBordureX + m.getLongueur(), dessinBordureY, dessinBordureX + m.getLongueur(), dessinBordureY + m.getHauteur());
+		g.drawLine(dessinBordureX, dessinBordureY + m.getHauteur(), dessinBordureX + m.getLongueur(), dessinBordureY + m.getHauteur());
+	
+		// Dessiner d'autres éléments non liés à la carte (informations, etc.) normalement
+		g.drawString("score : " + this.joueur.getScore(), 0, 20);
+		g.drawString("kill : " + this.joueur.getKill(), 0, 35);
+
+		//affichage du leaderboard
+		this.ctrl.getJoueurs().sort(null);
+		for (int i=0 ; i < this.ctrl.getJoueurs().size() ; i++)
+		{
+			if(i > 10 ) break;
+
+			g.drawString( (i+1) + ". " + this.ctrl.getJoueurs().get(i).toString(), this.getWidth() - 100, 20 + i*15);
+		}
+
+		// affichage de charge bouclier
+		g.setColor(Color.BLUE);
+		g.fillRect( 0, this.getHeight() - 10, (int)(this.getWidth() * this.joueur.getNbBouclier()/this.joueur.getNbMaxBouclier()), 15);
+		
+
+		// Vérifier si le joueur est mort
+		if (!this.ctrl.getJoueurs().contains(this.joueur))
+			this.frame.dispose();
 	}
+	
 
 	@Override
 	public void keyTyped(KeyEvent e) 

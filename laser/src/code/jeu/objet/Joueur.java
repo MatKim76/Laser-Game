@@ -2,7 +2,7 @@ package code.jeu.objet;
 
 import java.awt.Color;
 
-public class Joueur 
+public class Joueur implements Comparable<Joueur>
 {
 	private static int VITESSE_BASE = 2;
 	private static int TAILLE = 20;
@@ -13,26 +13,35 @@ public class Joueur
 
 	private int chargeBouclier;
 	private boolean bouclier;
+	private int maxBouclier;
+
+	private int score;
+	private int kill;
 
 	private Map map;
 
 	private int x;
 	private int y;
 
-	private int vitesse = Joueur.VITESSE_BASE;
+	private int vitesse;
 
 	public Joueur(String nom, Color couleur, Map map)
 	{
 		this.nom = nom;
 		this.couleur = couleur;
 
+		this.maxBouclier = Joueur.MAX_BOUCLIER;
 		this.chargeBouclier = Joueur.MAX_BOUCLIER;
 		this.bouclier = false;
 
 		this.map = map;
 
-		this.x = 0;
-		this.y = 0;
+		this.x = (int)(Math.random()*map.getLongueur());
+		this.y = (int)(Math.random()*map.getHauteur());
+
+		this.vitesse = Joueur.VITESSE_BASE;
+		this.score = 50;
+		this.kill = 0;
 	}
 
 	public void décharge()
@@ -52,7 +61,7 @@ public class Joueur
 		this.bouclier = false;
 		this.vitesse = Joueur.VITESSE_BASE;
 
-		if(chargeBouclier < Joueur.MAX_BOUCLIER)
+		if(chargeBouclier < this.maxBouclier)
 			this.chargeBouclier++;
 	}
 
@@ -72,6 +81,21 @@ public class Joueur
 		if(this.y > map.getHauteur() - Joueur.TAILLE) this.y = map.getHauteur() - Joueur.TAILLE;
 	}
 
+	public void addKill()
+	{
+		this.kill++;
+	}
+	
+	public void addScore(int s)
+	{
+		this.score+=s;
+	}
+
+	public String toString()
+	{
+		return String.format("%-10s", this.nom ) + "  " + String.format("%5d", this.score);
+	}
+
 	public String getNom() {return this.nom;}
 	public int getX() {return this.x;}
 	public int getY() {return this.y;}
@@ -79,4 +103,15 @@ public class Joueur
 	public int getTaille() {return Joueur.TAILLE;}
 	public boolean getBouclier() {return this.bouclier;}
 	public int getNbBouclier() {return this.chargeBouclier;}
+	public int getNbMaxBouclier() {return this.maxBouclier;}
+	public int getScore() {return this.score;}
+	public int getKill() {return this.kill;}
+
+	@Override
+	public int compareTo(Joueur j) 
+	{
+		if(this.score == j.getScore()) return 0;
+		else if(this.score < j.getScore()) return -1;
+		else return 1;
+	}
 }

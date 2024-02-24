@@ -13,8 +13,8 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import code.Controleur;
+import code.jeu.outil.RechercheServeur;
 import code.jeu.reseau.Client;
-import code.jeu.reseau.RechercheServeur;
 import code.jeu.reseau.Serveur;
 
 import javax.swing.JComboBox;
