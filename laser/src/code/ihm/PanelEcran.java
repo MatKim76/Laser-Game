@@ -7,9 +7,11 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import code.jeu.objet.Bonus;
 import code.jeu.objet.Joueur;
 import code.jeu.objet.Map;
-import code.jeu.outil.TesteurColision;
+import code.jeu.outil.CollisionBonus;
+import code.jeu.outil.CollisionJoueur;
 import code.Controleur;
 
 public class PanelEcran extends JPanel implements KeyListener, Runnable
@@ -33,10 +35,7 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 
 		this.setBackground(Color.WHITE);
 
-		//Observe les colisions
-		Thread colision = new Thread( new TesteurColision(this.ctrl.getMap()) );
-        colision.start();
-
+		//Regarde les commandes clavier
 		Thread movementThread = new Thread(this);
         movementThread.start();
 	}
@@ -102,6 +101,17 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 				g.setColor(Color.BLUE);
 				g.drawRect(dessinX - 5, dessinY - 5, j.getTaille() + 10, j.getTaille() + 10);
 			}
+		}
+
+		// Dessin des bonus
+		for (Bonus b : this.ctrl.getBonus()) 
+		{
+			int dessinX = joueurDessinX + b.getX();
+			int dessinY = joueurDessinY + b.getY();
+	
+			// Dessiner le bonus à sa nouvelle position calculée
+			g.setColor(b.getCouleur());
+			g.fillRect(dessinX, dessinY, b.getTaille(), b.getTaille());
 		}
 	
 		// Dessiner d'autres éléments de la carte (bordures, etc.) en ajustant leurs coordonnées de dessin
@@ -181,7 +191,7 @@ public class PanelEcran extends JPanel implements KeyListener, Runnable
 
 			try 
 			{
-                Thread.sleep(10);
+                Thread.sleep(10);//changer la valeur pour voir sur les pc IUT
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -40,7 +40,7 @@ public class Joueur implements Comparable<Joueur>
 		this.y = (int)(Math.random()*map.getHauteur());
 
 		this.vitesse = Joueur.VITESSE_BASE;
-		this.score = 50;
+		this.score = 0;
 		this.kill = 0;
 	}
 
@@ -111,7 +111,7 @@ public class Joueur implements Comparable<Joueur>
 	public int compareTo(Joueur j) 
 	{
 		if(this.score == j.getScore()) return 0;
-		else if(this.score < j.getScore()) return -1;
+		else if(this.score > j.getScore()) return -1; //c'est inversé mais tkt
 		else return 1;
 	}
 }

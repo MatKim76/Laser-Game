@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import code.jeu.objet.Joueur;
 import code.jeu.objet.Map;
 
-public class TesteurColision implements Runnable
+public class CollisionJoueur implements Runnable
 {
     private Map map;
 
-    public TesteurColision(Map map)
+    public CollisionJoueur(Map map)
     {
         this.map = map;
     }
@@ -28,14 +28,11 @@ public class TesteurColision implements Runnable
                     Joueur joueur1 = lstJoueur.get(i);
                     Joueur joueur2 = lstJoueur.get(j);
 
-                    if(joueur1.equals(joueur2)) return;
+                    if(joueur1.equals(joueur2)) break;
 
-                    if (joueur1.getX() <= joueur2.getX() && joueur1.getX() + joueur1.getTaille() >= joueur2.getX() &&
-                        joueur1.getY() <= joueur2.getY() && joueur1.getY() + joueur1.getTaille() >= joueur2.getY() ||
-                        joueur2.getX() <= joueur1.getX() && joueur2.getX() + joueur2.getTaille() >= joueur1.getX() &&
-                        joueur2.getY() <= joueur1.getY() && joueur2.getY() + joueur2.getTaille() >= joueur1.getY() ) 
+                    if (collision(joueur1, joueur2)) 
                     {
-                        System.out.println("colision");
+                        System.out.println("collision");
 
                         if(!joueur1.getBouclier())
                             lstJoueur.remove(joueur1);
@@ -59,6 +56,14 @@ public class TesteurColision implements Runnable
                 }
             }
         }
+    }
+
+    public boolean collision(Joueur joueur1, Joueur joueur2)
+    {
+        return (joueur1.getX() <= joueur2.getX() && joueur1.getX() + joueur1.getTaille() >= joueur2.getX() &&
+                joueur1.getY() <= joueur2.getY() && joueur1.getY() + joueur1.getTaille() >= joueur2.getY() ||
+                joueur2.getX() <= joueur1.getX() && joueur2.getX() + joueur2.getTaille() >= joueur1.getX() &&
+                joueur2.getY() <= joueur1.getY() && joueur2.getY() + joueur2.getTaille() >= joueur1.getY());
     }
     
 }

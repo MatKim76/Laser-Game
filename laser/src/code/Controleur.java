@@ -1,8 +1,12 @@
 package code;
 import code.ihm.FrameJeu;
 import code.ihm.FrameMenu;
+import code.jeu.objet.Bonus;
 import code.jeu.objet.Joueur;
 import code.jeu.objet.Map;
+import code.jeu.outil.CollisionBonus;
+import code.jeu.outil.CollisionJoueur;
+import code.jeu.outil.GenerateurBonus;
 import code.jeu.reseau.*;
 
 import java.awt.Color;
@@ -34,6 +38,11 @@ public class Controleur
 		return this.map.getJoueurs();
 	}
 
+	public ArrayList<Bonus> getBonus()
+	{
+		return this.map.getBonus();
+	}
+
 	public Map getMap()
 	{
 		return this.map;
@@ -50,6 +59,17 @@ public class Controleur
 
 		Joueur j = new Joueur(nomJoueur, Controleur.COULEURS[(int)(Math.random()*Controleur.COULEURS.length)], map);
 		this.map.addJoueur(j);
+
+		//Observe les collisions
+		Thread collisionJoueur = new Thread( new CollisionJoueur(this.map)) ;
+        collisionJoueur.start();
+
+		Thread collisionBonus = new Thread( new CollisionBonus(this.map) );
+        collisionBonus.start();
+
+		//génere les bonus
+		Thread generateurBonus = new Thread( new GenerateurBonus( this.map ) );
+		generateurBonus.start();
 
 		this.frame = new FrameJeu(this, j);
 
