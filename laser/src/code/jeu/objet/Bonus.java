@@ -1,8 +1,9 @@
 package code.jeu.objet;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public class Bonus 
+public class Bonus implements Serializable
 {
 	private int x;
 	private int y;

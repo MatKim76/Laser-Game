@@ -18,9 +18,9 @@ public class Serveur implements Runnable
 
 	private Map map;
 
-	public Serveur(Controleur ctrl)
+	public Serveur(String nomServ, Controleur ctrl)
 	{
-		this.map = new Map(600, 800);//faire que sa sadapte a la frmae
+		this.map = new Map(nomServ, 600, 800);//faire que sa sadapte a la frmae
 		
 		array = new ArrayList<PrintWriter>();
 		
@@ -29,7 +29,7 @@ public class Serveur implements Runnable
 	}
 
 	//TODO à modifier pour créer plusieur serv
-	public static Serveur recupServeur(Controleur ctrl)
+	/*public static Serveur recupServeur(Controleur ctrl)
 	{
 		if(Serveur.serv == null)
 		{
@@ -40,7 +40,7 @@ public class Serveur implements Runnable
 
 		System.out.println("Il y a deja un serveur... recup du serveur");
 		return Serveur.serv;
-	}
+	}*/
 
 	@Override
 	public void run() 
@@ -55,7 +55,19 @@ public class Serveur implements Runnable
 				
 				Socket toClient = ss.accept();
 				System.out.println("client arrivé");
+
+
+				// Envoyer la référence de l'instance de la carte au client
+                ObjectOutputStream objectOut = new ObjectOutputStream(toClient.getOutputStream());
+                objectOut.writeObject(map);
+                objectOut.flush();
+
+				/*objectOut.writeObject(map.getJoueurs());
+				objectOut.writeObject(map.getBonus());
+				objectOut.flush();*/
+				System.out.println(map);
 				
+
 				GerantDeClient client = new GerantDeClient(toClient);
 				array.add( client.getPrint() );
 				

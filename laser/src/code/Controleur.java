@@ -48,10 +48,15 @@ public class Controleur
 		return this.map;
 	}
 
+	public void setMap(Map map)
+	{
+		this.map = map;
+	}
+
 	public void lancerJeu()
 	{
-		Serveur s = Serveur.recupServeur(this);
-		this.map = s.getMap();
+		//Serveur s = Serveur.recupServeur(this);
+		//this.map = s.getMap();
 
 		String nomJoueur = JOptionPane.showInputDialog(null, "Veuillez choisir un pseudo :");
 		while( nomJoueur.length() > 10 )

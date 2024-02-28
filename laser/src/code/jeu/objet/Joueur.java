@@ -1,8 +1,9 @@
 package code.jeu.objet;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public class Joueur implements Comparable<Joueur>
+public class Joueur implements Comparable<Joueur>, Serializable
 {
 	private static int VITESSE_BASE = 2;
 	private static int TAILLE = 20;
