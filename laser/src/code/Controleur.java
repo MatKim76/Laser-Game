@@ -22,6 +22,8 @@ public class Controleur
 	private Map map;
 
 	private static int compteur = 0;
+
+	private Joueur joueur;
 	
 	public Controleur()
 	{
@@ -57,27 +59,29 @@ public class Controleur
 	{
 		//Serveur s = Serveur.recupServeur(this);
 		//this.map = s.getMap();
+		while (this.map == null) 
+		{
+			try {
+				Thread.sleep(100);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 
 		String nomJoueur = JOptionPane.showInputDialog(null, "Veuillez choisir un pseudo :");
 		while( nomJoueur.length() > 10 )
 			nomJoueur = JOptionPane.showInputDialog(null, "Pseudo trop long (10 cara max) :");
 
-		Joueur j = new Joueur(nomJoueur, Controleur.COULEURS[(int)(Math.random()*Controleur.COULEURS.length)], map);
-		this.map.addJoueur(j);
+		this.joueur = new Joueur(nomJoueur, Controleur.COULEURS[(int)(Math.random()*Controleur.COULEURS.length)], map);
+		this.map.addJoueur(this.joueur);
 
-		//Observe les collisions
-		Thread collisionJoueur = new Thread( new CollisionJoueur(this.map)) ;
-        collisionJoueur.start();
-
-		Thread collisionBonus = new Thread( new CollisionBonus(this.map) );
-        collisionBonus.start();
-
-		//génere les bonus
-		Thread generateurBonus = new Thread( new GenerateurBonus( this.map ) );
-		generateurBonus.start();
-
-		this.frame = new FrameJeu(this, j);
+		this.frame = new FrameJeu(this, this.joueur);
 
 		System.out.println("lancement 2");
+	}
+
+	public Joueur getJoueur()
+	{
+		return this.joueur;
 	}
 }

@@ -68,17 +68,16 @@ public class PanelMenu extends JPanel implements ActionListener {
 			if (selectedServer != null)
 			{
                 Client c = new Client(selectedServer, this.ctrl);
-				c.start();
             }
         }
 
 		if(e.getSource() == this.btnServeur)
 		{
-			//TODO faire en sorte d'afficher les nom des serv (compliqué)
-			String nomServeur = JOptionPane.showInputDialog(null, "Veuillez saisir un nom au serveur :");
+			//String nomServeur = JOptionPane.showInputDialog(null, "Veuillez saisir un nom au serveur :");
 			
 			//Serveur.recupServeur(ctrl);
-			new Serveur(nomServeur, ctrl);
+			//new Serveur(nomServeur, ctrl);
+			new Serveur("a", ctrl); //a enlever car flemme d'ecrire un nom chaque fois
 		}
     }
 

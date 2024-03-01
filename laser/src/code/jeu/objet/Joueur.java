@@ -115,4 +115,10 @@ public class Joueur implements Comparable<Joueur>, Serializable
 		else if(this.score > j.getScore()) return -1; //c'est inversé mais tkt
 		else return 1;
 	}
+
+	public boolean equals(Joueur j)
+	{
+		if(j==null) return false;
+		return (this.nom.equals(j.getNom()) && this.couleur.equals(j.getCouleur()));
+	}
 }

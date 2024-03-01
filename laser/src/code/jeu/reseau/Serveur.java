@@ -14,7 +14,7 @@ public class Serveur implements Runnable
 	private static Serveur serv;
 	
 	private static int portNumber = 8686;
-	private static ArrayList<PrintWriter> array;
+	private ArrayList<GerantDeClient> clients;
 
 	private Map map;
 
@@ -22,8 +22,7 @@ public class Serveur implements Runnable
 	{
 		this.map = new Map(nomServ, 600, 800);//faire que sa sadapte a la frmae
 		
-		array = new ArrayList<PrintWriter>();
-		
+		this.clients = new ArrayList<GerantDeClient>();
 		Thread t = new Thread(this);
 		t.start();
 	}
@@ -56,20 +55,8 @@ public class Serveur implements Runnable
 				Socket toClient = ss.accept();
 				System.out.println("client arrivé");
 
-
-				// Envoyer la référence de l'instance de la carte au client
-                ObjectOutputStream objectOut = new ObjectOutputStream(toClient.getOutputStream());
-                objectOut.writeObject(map);
-                objectOut.flush();
-
-				/*objectOut.writeObject(map.getJoueurs());
-				objectOut.writeObject(map.getBonus());
-				objectOut.flush();*/
-				System.out.println(map);
-				
-
-				GerantDeClient client = new GerantDeClient(toClient);
-				array.add( client.getPrint() );
+				GerantDeClient client = new GerantDeClient(toClient, this.map);
+				clients.add(client);
 				
 				Thread t = new Thread(client);
 				t.start();
@@ -83,6 +70,4 @@ public class Serveur implements Runnable
 	{
 		return this.map;
 	}
-	
-	
 }
